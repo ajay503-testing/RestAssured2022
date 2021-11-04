@@ -6,10 +6,13 @@ import static org.hamcrest.Matchers.*;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.testng.annotations.Test;
+
 import io.restassured.RestAssured;
 public class CreateUser {
 
-	public static void main(String[] args) {
+	@Test
+	public  void createUser() {
 		// TODO Auto-generated method stub
 
     RestAssured.baseURI="https://petstore.swagger.io/";
