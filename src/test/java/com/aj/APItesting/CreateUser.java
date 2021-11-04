@@ -1,4 +1,5 @@
 package com.aj.APItesting;
+
 import static io.restassured.RestAssured.*;
 import static io.restassured.matcher.RestAssuredMatchers.*;
 import static org.hamcrest.Matchers.*;
@@ -6,35 +7,44 @@ import static org.hamcrest.Matchers.*;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import io.restassured.RestAssured;
+import io.restassured.path.json.JsonPath;
+
 public class CreateUser {
 
 	@Test
-	public  void createUser() {
+	public void createUser() {
 		// TODO Auto-generated method stub
 
-    RestAssured.baseURI="https://petstore.swagger.io/";
-    
-    Map header =new HashMap();
-    header.put("content-type", "application/json");
-    header.put("api-key", "special-key");
-    
-    String str1=given().headers(header).body("[\r\n" + 
-    		"  {\r\n" + 
-    		"    \"id\": 1,\r\n" + 
-    		"    \"username\": \"vj\",\r\n" + 
-    		"    \"firstName\": \"maa\",\r\n" + 
-    		"    \"lastName\": \"kuu\",\r\n" + 
-    		"    \"email\": \"aj1@gmail.com\",\r\n" + 
-    		"    \"password\": \"aj@1234\",\r\n" + 
-    		"    \"phone\": \"88\",\r\n" + 
-    		"    \"userStatus\": 0\r\n" + 
-    		"  }\r\n" + 
-    		"]").when().post("v2/user/createWithList").then().extract().response().asString();
-		
+		RestAssured.baseURI = "https://petstore.swagger.io/";
+
+		Map header = new HashMap();
+		header.put("content-type", "application/json");
+		header.put("api-key", "special-key");
+
+		String str1 = given().headers(header)
+				.body("[\r\n" + "  {\r\n" + "    \"id\": 1,\r\n" + "    \"username\": \"vj\",\r\n"
+						+ "    \"firstName\": \"maa\",\r\n" + "    \"lastName\": \"kuu\",\r\n"
+						+ "    \"email\": \"aj1@gmail.com\",\r\n" + "    \"password\": \"aj@1234\",\r\n"
+						+ "    \"phone\": \"88\",\r\n" + "    \"userStatus\": 0\r\n" + "  }\r\n" + "]")
+				.when().post("v2/user/createWithList").then().extract().response().asString();
+
 		System.out.println(str1);
+		JsonPath path = new JsonPath(str1);
+		int statusCode = path.get("code");
+
+		if (statusCode == 300) {
+			Assert.assertEquals(true, true);
+			System.out.println("passed");
+		} else {
+			System.out.println("failed");
+			Assert.assertEquals(true, false);
+
+		}
+
 	}
 
 }
